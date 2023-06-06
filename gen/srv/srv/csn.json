@@ -1,0 +1,354 @@
+{
+  "namespace": "com.practise",
+  "definitions": {
+    "com.practise.Cars": {
+      "kind": "entity",
+      "elements": {
+        "id": {
+          "key": true,
+          "type": "cds.Int64"
+        },
+        "brand": {
+          "type": "cds.String"
+        },
+        "colors": {
+          "type": "cds.String"
+        },
+        "impact": {
+          "type": "cds.Integer"
+        },
+        "criticality": {
+          "type": "cds.Integer"
+        },
+        "rating": {
+          "@assert.range": [
+            0,
+            5
+          ],
+          "type": "cds.Decimal",
+          "precision": 2,
+          "scale": 1
+        },
+        "amountManufactured": {
+          "type": "cds.Int64"
+        },
+        "maker": {
+          "type": "cds.Association",
+          "target": "com.practise.CarMakers",
+          "keys": [
+            {
+              "ref": [
+                "id"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "com.practise.CarMakers": {
+      "kind": "entity",
+      "elements": {
+        "id": {
+          "key": true,
+          "type": "cds.Int64"
+        },
+        "name": {
+          "type": "cds.String"
+        },
+        "cars": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "com.practise.Cars",
+          "on": [
+            {
+              "ref": [
+                "cars",
+                "maker"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "state": {
+          "type": "cds.String"
+        }
+      }
+    },
+    "CarService": {
+      "@source": "srv/cars-service.cds",
+      "kind": "service",
+      "@path": "cars"
+    },
+    "CarService.Cars": {
+      "kind": "entity",
+      "@odata.draft.enabled": true,
+      "@UI.HeaderInfo.TypeName": "Car",
+      "@UI.HeaderInfo.TypeNamePlural": "Cars",
+      "@UI.SelectionFields": [
+        {
+          "=": "brand"
+        },
+        {
+          "=": "colors"
+        }
+      ],
+      "@UI.LineItem": [
+        {
+          "Value": {
+            "=": "id"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "brand",
+          "Value": {
+            "=": "brand"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "colors",
+          "Value": {
+            "=": "colors"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "amountManufactured",
+          "Value": {
+            "=": "amountManufactured"
+          }
+        },
+        {
+          "Value": {
+            "=": "impact"
+          },
+          "Criticality": {
+            "=": "criticality"
+          }
+        },
+        {
+          "Value": {
+            "=": "criticality"
+          },
+          "Criticality": {
+            "=": "criticality"
+          }
+        },
+        {
+          "$Type": "UI.DataFieldForAnnotation",
+          "Target": "@UI.DataPoint#rating"
+        },
+        {
+          "Value": {
+            "=": "maker_id"
+          },
+          "@UI.Hidden": true
+        }
+      ],
+      "@UI.DataPoint#rating.Value": {
+        "=": "rating"
+      },
+      "@UI.DataPoint#rating.Visualization": {
+        "#": "Rating"
+      },
+      "@UI.DataPoint#rating.TargetValue": 5,
+      "@UI.FieldGroup#GeneratedGroup1.$Type": "UI.FieldGroupType",
+      "@UI.FieldGroup#GeneratedGroup1.Data": [
+        {
+          "$Type": "UI.DataField",
+          "Label": "id",
+          "Value": {
+            "=": "id"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "brand",
+          "Value": {
+            "=": "brand"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "colors",
+          "Value": {
+            "=": "colors"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "amountManufactured",
+          "Value": {
+            "=": "amountManufactured"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "maker_id",
+          "Value": {
+            "=": "maker_id"
+          }
+        }
+      ],
+      "@UI.FieldGroup#GeneratedGroup2.$Type": "UI.FieldGroupType",
+      "@UI.FieldGroup#GeneratedGroup2.Data": [
+        {
+          "$Type": "UI.DataField",
+          "Label": "brand",
+          "Value": {
+            "=": "brand"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "colors",
+          "Value": {
+            "=": "colors"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "amountManufactured",
+          "Value": {
+            "=": "amountManufactured"
+          }
+        }
+      ],
+      "@UI.Facets": [
+        {
+          "$Type": "UI.ReferenceFacet",
+          "ID": "GeneratedFacet1",
+          "Label": "General Information",
+          "Target": "@UI.FieldGroup#GeneratedGroup1"
+        },
+        {
+          "$Type": "UI.ReferenceFacet",
+          "ID": "GeneratedFacet2",
+          "Label": "Overview",
+          "Target": "@UI.FieldGroup#GeneratedGroup2"
+        }
+      ],
+      "projection": {
+        "from": {
+          "ref": [
+            "com.practise.Cars"
+          ]
+        }
+      },
+      "elements": {
+        "id": {
+          "key": true,
+          "type": "cds.Int64"
+        },
+        "brand": {
+          "type": "cds.String"
+        },
+        "colors": {
+          "type": "cds.String"
+        },
+        "impact": {
+          "type": "cds.Integer"
+        },
+        "criticality": {
+          "type": "cds.Integer"
+        },
+        "rating": {
+          "@assert.range": [
+            0,
+            5
+          ],
+          "type": "cds.Decimal",
+          "precision": 2,
+          "scale": 1
+        },
+        "amountManufactured": {
+          "type": "cds.Int64"
+        },
+        "maker": {
+          "type": "cds.Association",
+          "target": "CarService.CarMakers",
+          "keys": [
+            {
+              "ref": [
+                "id"
+              ]
+            }
+          ]
+        }
+      },
+      "actions": {
+        "addMaker": {
+          "kind": "action",
+          "params": {
+            "name": {
+              "type": "cds.String"
+            },
+            "state": {
+              "type": "cds.String"
+            }
+          },
+          "returns": {
+            "type": "CarService.CarMakers"
+          }
+        }
+      }
+    },
+    "CarService.CarMakers": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "com.practise.CarMakers"
+          ]
+        }
+      },
+      "elements": {
+        "id": {
+          "key": true,
+          "type": "cds.Int64"
+        },
+        "name": {
+          "type": "cds.String"
+        },
+        "cars": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "CarService.Cars",
+          "on": [
+            {
+              "ref": [
+                "cars",
+                "maker"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "state": {
+          "type": "cds.String"
+        }
+      }
+    }
+  },
+  "meta": {
+    "creator": "CDS Compiler v3.9.2",
+    "flavor": "inferred"
+  },
+  "$version": "2.0"
+}
