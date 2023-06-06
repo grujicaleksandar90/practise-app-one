@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="CarService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="Cars" EntityType="CarService.Cars">
+                    <NavigationPropertyBinding Path="maker" Target="CarMakers"/>
+                </EntitySet>
+                <EntitySet Name="CarMakers" EntityType="CarService.CarMakers">
+                    <NavigationPropertyBinding Path="cars" Target="Cars"/>
+                </EntitySet>
+            </EntityContainer>
+            <EntityType Name="Cars">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="id" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="brand" Type="Edm.String"/>
+                <Property Name="colors" Type="Edm.String"/>
+                <Property Name="amountManufactured" Type="Edm.Int64"/>
+                <NavigationProperty Name="maker" Type="CarService.CarMakers" Partner="cars">
+                    <ReferentialConstraint Property="maker_id" ReferencedProperty="id"/>
+                </NavigationProperty>
+                <Property Name="maker_id" Type="Edm.Int64"/>
+            </EntityType>
+            <EntityType Name="CarMakers">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="id" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="name" Type="Edm.String"/>
+                <NavigationProperty Name="cars" Type="Collection(CarService.Cars)" Partner="maker"/>
+                <Property Name="state" Type="Edm.String"/>
+            </EntityType>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

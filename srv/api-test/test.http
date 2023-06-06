@@ -1,0 +1,9 @@
+POST http://localhost:4004/cars/Cars(1)/CarService.addCar
+content-type: application/json
+
+{
+    "brand": "Golf",
+    "colors": "Black and White",
+    "amountManufactured": 500,
+    "maker_id" : 2
+}
